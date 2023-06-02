@@ -8,11 +8,11 @@ class ChatClient:
     HOST: str
     PORT: int
 
-    def __init__(self, host: str = "127.0.0.1", port: int = 80):
+    def __init__(self, host: str = "127.0.0.1", port: int = 80) -> None:
         self.HOST = host
         self.PORT = port
 
-    def _run_and_connect(self):
+    def _run_and_connect(self) -> None:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:
                 s.connect((self.HOST, self.PORT))
@@ -23,11 +23,9 @@ class ChatClient:
             print(f"Successfully connected to: {self.HOST} at {self.PORT}")
 
             username: str = input("Enter your username:")
-            u_id = username + str(datetime.now())[21:26]
-            print(f"Username : {username} / UserID: {u_id}")
-            s.sendall(f"username={username}/uID={u_id}\n".encode())
+            s.sendall(f"username={username}/uID={username + str(datetime.now())[21:26]}\n".encode())
 
-            input_thread = KeyboardThread(send)
+            KeyboardThread(send, s)
 
             data: Optional[bytes] = None
             while True:
@@ -41,7 +39,7 @@ class ChatClient:
         return
 
 
-def send(msg, s: socket):
+def send(msg, s: socket) -> None:
     s.sendall(msg.encode())
 
 
