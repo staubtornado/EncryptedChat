@@ -23,7 +23,9 @@ class ChatClient:
             print(f"Successfully connected to: {self.HOST} at {self.PORT}")
 
             username: str = input("Enter your username:")
-            s.sendall(f"username={username}/uID={username + str(datetime.now())[21:26]}\n".encode())
+            u_id = username + str(datetime.now())[21:26]
+            print(f"Username : {username} / UserID: {u_id}")
+            s.sendall(f"username={username}/uID={u_id}\n".encode())
 
             input_thread = KeyboardThread(send)
 
