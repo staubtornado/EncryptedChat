@@ -1,4 +1,5 @@
 import socket
+from InputThread import KeyboardThread
 from typing import Optional
 from datetime import datetime
 
@@ -24,18 +25,22 @@ class ChatClient:
             username: str = input("Enter your username:")
             s.sendall(f"username={username}/uID={username + str(datetime.now())[21:26]}\n".encode())
 
+            input_thread = KeyboardThread(send)
+
             data: Optional[bytes] = None
-            while data != "exit":
-                print(f"Other: {data}")
-                msg: str = input()
-                s.sendall(msg.encode())
+            while True:
                 data: bytes = s.recv(1024)
+                print(data.decode())
 
     def _encrypt(self):
         return
 
     def _decrypt(self):
         return
+
+
+def send(msg, s: socket):
+    s.sendall(msg.encode())
 
 
 c = ChatClient()
