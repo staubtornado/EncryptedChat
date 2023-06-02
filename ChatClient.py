@@ -22,7 +22,7 @@ class ChatClient:
             print(f"Successfully connected to: {self.HOST} at {self.PORT}")
 
             username: str = input("Enter your username:")
-            s.sendall(f"uID: {username + str(datetime.now())[21:26]}, username: {username}\n".encode())
+            s.sendall(f"username={username}/uID={username + str(datetime.now())[21:26]}\n".encode())
 
             data: Optional[bytes] = None
             while data != "exit":
